@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 //Created by Atit
 
 namespace VehicleRegoMgm
@@ -45,6 +47,7 @@ namespace VehicleRegoMgm
             {
                 // Cancel the event  the text to be corrected by the user
                 e.Cancel = true;
+                //TextBoxInput.Select(0, TextBoxInput.Text.Length);
                 TextBoxInput.Clear();
                 MessageBox.Show(errorMsg);
             }
@@ -157,7 +160,7 @@ namespace VehicleRegoMgm
         {
             if (ListBoxVehicle.SelectedIndex != -1)
             {
-               ListBoxVehicle.SetSelected(ListBoxVehicle.SelectedIndex, true);
+             
                 if (!vehicleRegos.Contains(TextBoxInput.Text.ToUpper()))
                 {
                     vehicleRegos[ListBoxVehicle.SelectedIndex] = TextBoxInput.Text.ToUpper();
@@ -191,6 +194,64 @@ namespace VehicleRegoMgm
             {
                 MessageBox.Show("Vehicle plate not selected");
 
+            }
+        }
+
+        private void ButtonOpen_Click(object sender, EventArgs e)
+        {
+            string fileName = "Rainbow.bin";
+            OpenFileDialog OpenBinary = new OpenFileDialog();
+            DialogResult sr = OpenBinary.ShowDialog();
+            if (sr == DialogResult.OK)
+            {
+                fileName = OpenBinary.FileName;
+            }
+            try
+            {
+                vehicleRegos.Clear();
+                using (Stream stream = File.Open(fileName, FileMode.Open))
+                {
+                    BinaryFormatter binaryFormatter = new BinaryFormatter();
+                    while (stream.Position < stream.Length)
+                    {
+                        vehicleRegos.Add((string)binaryFormatter.Deserialize(stream));
+                    }
+                }
+                DisplayRegoList();
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("cannot open file");
+            }
+        }
+
+        private void ButtonSave_Click(object sender, EventArgs e)
+        {
+            string fileName = "Rainbow.bin";
+            SaveFileDialog saveBinary = new SaveFileDialog();
+            DialogResult sr = saveBinary.ShowDialog();
+            if (sr == DialogResult.Cancel)
+            {
+                saveBinary.FileName = fileName;
+            }
+            if (sr == DialogResult.OK)
+            {
+                fileName = saveBinary.FileName;
+            }
+            try
+            {
+                using (Stream stream = File.Open(fileName, FileMode.Create))
+                {
+                    BinaryFormatter binFormatter = new BinaryFormatter();
+                    foreach (var item in vehicleRegos)
+                    {
+                        binFormatter.Serialize(stream, item);
+                    }
+                }
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("cannot save file");
             }
         }
     }

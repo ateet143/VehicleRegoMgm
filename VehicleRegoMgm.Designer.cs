@@ -137,6 +137,7 @@ namespace VehicleRegoMgm
             this.ButtonOpen.TabIndex = 9;
             this.ButtonOpen.Text = "Open";
             this.ButtonOpen.UseVisualStyleBackColor = false;
+            this.ButtonOpen.Click += new System.EventHandler(this.ButtonOpen_Click);
             // 
             // ButtonSave
             // 
@@ -147,6 +148,7 @@ namespace VehicleRegoMgm
             this.ButtonSave.TabIndex = 10;
             this.ButtonSave.Text = "Save";
             this.ButtonSave.UseVisualStyleBackColor = false;
+            this.ButtonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
             // ButtonReset
             // 
@@ -161,6 +163,7 @@ namespace VehicleRegoMgm
             // 
             // ListBoxVehicle
             // 
+            this.ListBoxVehicle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ListBoxVehicle.FormattingEnabled = true;
             this.ListBoxVehicle.Location = new System.Drawing.Point(22, 23);
             this.ListBoxVehicle.Name = "ListBoxVehicle";
