@@ -21,8 +21,7 @@ namespace VehicleRegoMgm
             InitializeComponent();
         }
 
-        List<string> vehicleRegos = new List<string>() 
-        {"1CDH-090","1GHT-047","1ABC-101","1DGR-348","1FHR-898"};
+        List<string> vehicleRegos = new List<string>();
         
         private void DisplayRegoList()
         {
@@ -35,6 +34,24 @@ namespace VehicleRegoMgm
         }
         private void VehicleRegoMgm_Load(object sender, EventArgs e)
         {
+            if (File.Exists(@"C:\Users\public\Documents\Rainbow.bin"))
+            {
+                vehicleRegos.Clear();
+                string fileName = @"C:\Users\public\Documents\Rainbow.bin";
+                using (Stream stream = File.Open(fileName, FileMode.Open))
+                {
+                    BinaryFormatter binaryFormatter = new BinaryFormatter();
+                    while (stream.Position < stream.Length)
+                    {
+                        vehicleRegos.Add((string)binaryFormatter.Deserialize(stream));
+                    }
+                }
+            }
+            else
+            {
+                BinaryWriter writer = new BinaryWriter(File.Open(@"C:\Users\public\Documents\Rainbow.bin", FileMode.Create));
+                writer.Close();
+            }
             DisplayRegoList();
            
         }
@@ -199,7 +216,7 @@ namespace VehicleRegoMgm
 
         private void ButtonOpen_Click(object sender, EventArgs e)
         {
-            string fileName = "Rainbow.bin";
+            string fileName = @"C:\Users\public\Documents\Rainbow.bin";
             OpenFileDialog OpenBinary = new OpenFileDialog();
             DialogResult sr = OpenBinary.ShowDialog();
             if (sr == DialogResult.OK)
@@ -227,7 +244,7 @@ namespace VehicleRegoMgm
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            string fileName = "Rainbow.bin";
+            string fileName = @"C:\Users\public\Documents\Rainbow.bin";
             SaveFileDialog saveBinary = new SaveFileDialog();
             DialogResult sr = saveBinary.ShowDialog();
             if (sr == DialogResult.Cancel)
