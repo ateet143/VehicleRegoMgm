@@ -34,10 +34,10 @@ namespace VehicleRegoMgm
         }
         private void VehicleRegoMgm_Load(object sender, EventArgs e)
         {
-            if (File.Exists(@"C:\Users\public\Documents\Rainbow.bin"))
+            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Rainbow.bin");
+            if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Rainbow.bin")))
             {
                 vehicleRegos.Clear();
-                string fileName = @"C:\Users\public\Documents\Rainbow.bin";
                 using (Stream stream = File.Open(fileName, FileMode.Open))
                 {
                     BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -46,11 +46,15 @@ namespace VehicleRegoMgm
                         vehicleRegos.Add((string)binaryFormatter.Deserialize(stream));
                     }
                 }
+                toolStripStatusLabel1.Text = "Default Data is loaded from: " + fileName;
             }
-            else
+           else
             {
-                BinaryWriter writer = new BinaryWriter(File.Open(@"C:\Users\public\Documents\Rainbow.bin", FileMode.Create));
-                writer.Close();
+                using (Stream stream = File.Open(fileName, FileMode.Create))
+                {
+                    BinaryWriter br = new BinaryWriter(stream);
+                }
+                toolStripStatusLabel1.Text = fileName + " is Created";
             }
             DisplayRegoList();
            
@@ -160,17 +164,39 @@ namespace VehicleRegoMgm
 
         private void ButtonExit_Click(object sender, EventArgs e)
         {
-            if(ListBoxVehicle.SelectedIndex != -1)
+            if (ListBoxVehicle.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(TextBoxInput.Text))
             {
-                ListBoxVehicle.SetSelected(ListBoxVehicle.SelectedIndex, true);
-                vehicleRegos.RemoveAt(ListBoxVehicle.SelectedIndex);
-                DisplayRegoList();
+                if (ListBoxVehicle.SelectedIndex != -1)
+                {
+                    ListBoxVehicle.SetSelected(ListBoxVehicle.SelectedIndex, true);
+                    vehicleRegos.RemoveAt(ListBoxVehicle.SelectedIndex);
+                    DisplayRegoList();
+                }
+
+                if (!string.IsNullOrWhiteSpace(TextBoxInput.Text))
+                {
+                   
+                    int a = vehicleRegos.IndexOf(TextBoxInput.Text.ToUpper());
+                    if(a >= 0)
+                    {
+                        vehicleRegos.RemoveAt(a);
+                        DisplayRegoList();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Plate not found");
+                    }
+                  
+                }
             }
             else
-            {
-                MessageBox.Show("Vehicle plate not selected");
-                
-            }
+                MessageBox.Show("Either select form text or list");
+           
+
+               
+
+            
+           
         }
 
         private void ButtonEdit_Click(object sender, EventArgs e)
@@ -216,12 +242,14 @@ namespace VehicleRegoMgm
 
         private void ButtonOpen_Click(object sender, EventArgs e)
         {
-            string fileName = @"C:\Users\public\Documents\Rainbow.bin";
+            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Rainbow.bin");
             OpenFileDialog OpenBinary = new OpenFileDialog();
+            OpenBinary.FileName = "Rainbow.bin";
             DialogResult sr = OpenBinary.ShowDialog();
             if (sr == DialogResult.OK)
             {
                 fileName = OpenBinary.FileName;
+                toolStripStatusLabel1.Text = fileName + " is opened.";
             }
             try
             {
@@ -244,16 +272,22 @@ namespace VehicleRegoMgm
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            string fileName = @"C:\Users\public\Documents\Rainbow.bin";
+
+            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Rainbow.bin");
             SaveFileDialog saveBinary = new SaveFileDialog();
+            saveBinary.Filter = "binary files (*.bin)|*.bin|All files (*.*)|*.*";
+            saveBinary.DefaultExt = "bin";
+            saveBinary.FileName = "Rainbow.bin";
             DialogResult sr = saveBinary.ShowDialog();
             if (sr == DialogResult.Cancel)
             {
                 saveBinary.FileName = fileName;
+               
             }
             if (sr == DialogResult.OK)
             {
                 fileName = saveBinary.FileName;
+                toolStripStatusLabel1.Text = "File saved as: " + fileName;
             }
             try
             {
@@ -270,6 +304,12 @@ namespace VehicleRegoMgm
             {
                 MessageBox.Show("cannot save file");
             }
+        }
+
+        private void TextBoxInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //when user type in textbox, it will deselect the listbox item if selected.
+            ListBoxVehicle.SelectedIndex = -1;
         }
     }
 }
