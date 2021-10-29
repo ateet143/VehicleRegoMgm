@@ -91,6 +91,7 @@ namespace VehicleRegoMgm
         private void ButtonReset_Click(object sender, EventArgs e)
         {
             vehicleRegos.Clear();
+            toolStripStatusLabel1.Text = "All Data Cleared";
             DisplayRegoList();
         }
 
@@ -152,7 +153,7 @@ namespace VehicleRegoMgm
             }
             else
             {
-                MessageBox.Show("Type the vehicle plate");
+                toolStripStatusLabel1.Text = "Type the vehicle plate";
             }
             TextBoxInput.Clear();
 
@@ -243,7 +244,7 @@ namespace VehicleRegoMgm
             }
             else
             {
-                MessageBox.Show("Vehicle plate not selected");
+                toolStripStatusLabel1.Text = "Vehicle plate not selected";
 
             }
         }
@@ -366,6 +367,11 @@ namespace VehicleRegoMgm
             {
                 MessageBox.Show("cannot save file");
             }
+        }
+
+        private void VehicleRegoMgm_MouseDown(object sender, MouseEventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Application running";
         }
     }
 }

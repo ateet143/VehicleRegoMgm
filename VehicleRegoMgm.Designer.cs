@@ -175,6 +175,7 @@ namespace VehicleRegoMgm
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
@@ -212,6 +213,7 @@ namespace VehicleRegoMgm
             this.Text = "VehicleRegoMgm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VehicleRegoMgm_FormClosing);
             this.Load += new System.EventHandler(this.VehicleRegoMgm_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.VehicleRegoMgm_MouseDown);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
