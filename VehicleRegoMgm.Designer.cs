@@ -63,7 +63,6 @@ namespace VehicleRegoMgm
             this.TextBoxInput.Name = "TextBoxInput";
             this.TextBoxInput.Size = new System.Drawing.Size(130, 34);
             this.TextBoxInput.TabIndex = 2;
-            this.TextBoxInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxInput_KeyPress);
             this.TextBoxInput.Validating += new System.ComponentModel.CancelEventHandler(this.TextBoxInput_Validating);
             // 
             // ButtonBinarySearch
@@ -211,6 +210,7 @@ namespace VehicleRegoMgm
             this.Controls.Add(this.label1);
             this.Name = "VehicleRegoMgm";
             this.Text = "VehicleRegoMgm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VehicleRegoMgm_FormClosing);
             this.Load += new System.EventHandler(this.VehicleRegoMgm_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
