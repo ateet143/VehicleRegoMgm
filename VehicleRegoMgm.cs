@@ -61,8 +61,7 @@ namespace VehicleRegoMgm
         #region Validating Rego Plate
         private void TextBoxInput_Validating(object sender, CancelEventArgs e)
         {
-            string errorMsg;
-            if (!ValidRego(TextBoxInput.Text, out errorMsg))
+            if (!ValidRego(TextBoxInput.Text, out string errorMsg))
             {
                 // Cancel the event  the text to be corrected by the user
                 e.Cancel = true;
@@ -252,8 +251,7 @@ namespace VehicleRegoMgm
         private void ButtonOpen_Click(object sender, EventArgs e)
         {
             string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Rainbow.bin");
-            OpenFileDialog OpenBinary = new OpenFileDialog();
-            OpenBinary.FileName = "Rainbow.bin";  //set the default filename as Rainbow.bin 
+            OpenFileDialog OpenBinary = new OpenFileDialog {FileName = "Rainbow.bin" }; //set the default filename as Rainbow.bin 
             DialogResult sr = OpenBinary.ShowDialog();
             if (sr == DialogResult.OK)
             {
@@ -270,11 +268,13 @@ namespace VehicleRegoMgm
         {
 
             string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Rainbow.bin");
-            SaveFileDialog saveBinary = new SaveFileDialog();
-            saveBinary.InitialDirectory = fileName;
-            saveBinary.Filter = "binary files (*.bin)|*.bin|All files (*.*)|*.*";  //setting so that user can save as binary files
-            saveBinary.DefaultExt = "bin";  //save the file as bin extension if all files is choosed.
-            saveBinary.FileName = "Rainbow.bin";  //set default filename
+            SaveFileDialog saveBinary = new SaveFileDialog
+            {
+                InitialDirectory = fileName,
+                Filter = "binary files (*.bin)|*.bin|All files (*.*)|*.*",  //setting so that user can save as binary files
+                DefaultExt = "bin",  //save the file as bin extension if all files is choosed.
+                FileName = "Rainbow.bin"  //set default filename
+            };
             DialogResult sr = saveBinary.ShowDialog();
             if (sr == DialogResult.Cancel)
             {
@@ -297,7 +297,7 @@ namespace VehicleRegoMgm
 
             List<string> currentList = new List<string>();
             currentList = BinaryToText(currentFile, currentList);
-            if (!compareList(vehicleRegos, currentList))
+            if (!CompareList(vehicleRegos, currentList))
             {
                 if (MessageBox.Show("Do you want to save changes to your File?", "Vehicle Management Application",
                           MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -308,7 +308,7 @@ namespace VehicleRegoMgm
                 }
             }
         }
-        public bool compareList(List<string> a, List<string> b)
+        public bool CompareList(List<string> a, List<string> b)
         {
             a.Sort();
             b.Sort();
