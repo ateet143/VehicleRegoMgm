@@ -29,6 +29,7 @@ namespace VehicleRegoMgm
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.TextBoxInput = new System.Windows.Forms.TextBox();
             this.ButtonBinarySearch = new System.Windows.Forms.Button();
@@ -43,6 +44,7 @@ namespace VehicleRegoMgm
             this.ListBoxVehicle = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,6 +65,7 @@ namespace VehicleRegoMgm
             this.TextBoxInput.Name = "TextBoxInput";
             this.TextBoxInput.Size = new System.Drawing.Size(130, 34);
             this.TextBoxInput.TabIndex = 2;
+            this.toolTip1.SetToolTip(this.TextBoxInput, "Type the vehicle plate number here");
             this.TextBoxInput.Validating += new System.ComponentModel.CancelEventHandler(this.TextBoxInput_Validating);
             // 
             // ButtonBinarySearch
@@ -73,6 +76,7 @@ namespace VehicleRegoMgm
             this.ButtonBinarySearch.Size = new System.Drawing.Size(113, 40);
             this.ButtonBinarySearch.TabIndex = 3;
             this.ButtonBinarySearch.Text = "Binary Search";
+            this.toolTip1.SetToolTip(this.ButtonBinarySearch, "Click for Binary Search");
             this.ButtonBinarySearch.UseVisualStyleBackColor = false;
             this.ButtonBinarySearch.Click += new System.EventHandler(this.ButtonBinarySearch_Click);
             // 
@@ -84,6 +88,7 @@ namespace VehicleRegoMgm
             this.ButtonLinearSearch.Size = new System.Drawing.Size(113, 40);
             this.ButtonLinearSearch.TabIndex = 4;
             this.ButtonLinearSearch.Text = "Linear Search";
+            this.toolTip1.SetToolTip(this.ButtonLinearSearch, "Click here for Linear Search");
             this.ButtonLinearSearch.UseVisualStyleBackColor = false;
             this.ButtonLinearSearch.Click += new System.EventHandler(this.ButtonLinearSearch_Click);
             // 
@@ -95,6 +100,7 @@ namespace VehicleRegoMgm
             this.ButtonEnter.Size = new System.Drawing.Size(113, 40);
             this.ButtonEnter.TabIndex = 5;
             this.ButtonEnter.Text = "Enter";
+            this.toolTip1.SetToolTip(this.ButtonEnter, "Click here to Add Vehicle number plate");
             this.ButtonEnter.UseVisualStyleBackColor = false;
             this.ButtonEnter.Click += new System.EventHandler(this.ButtonEnter_Click);
             // 
@@ -106,6 +112,7 @@ namespace VehicleRegoMgm
             this.ButtonEdit.Size = new System.Drawing.Size(113, 40);
             this.ButtonEdit.TabIndex = 6;
             this.ButtonEdit.Text = "Edit";
+            this.toolTip1.SetToolTip(this.ButtonEdit, "Click here to Edit vehicle number plate");
             this.ButtonEdit.UseVisualStyleBackColor = false;
             this.ButtonEdit.Click += new System.EventHandler(this.ButtonEdit_Click);
             // 
@@ -117,6 +124,7 @@ namespace VehicleRegoMgm
             this.ButtonExit.Size = new System.Drawing.Size(113, 40);
             this.ButtonExit.TabIndex = 7;
             this.ButtonExit.Text = "Exit";
+            this.toolTip1.SetToolTip(this.ButtonExit, "Click here to Remove the vehicle number plate");
             this.ButtonExit.UseVisualStyleBackColor = false;
             this.ButtonExit.Click += new System.EventHandler(this.ButtonExit_Click);
             // 
@@ -128,6 +136,7 @@ namespace VehicleRegoMgm
             this.ButtonTag.Size = new System.Drawing.Size(113, 40);
             this.ButtonTag.TabIndex = 8;
             this.ButtonTag.Text = "Tag";
+            this.toolTip1.SetToolTip(this.ButtonTag, "Click here to tag vehicle number plate");
             this.ButtonTag.UseVisualStyleBackColor = false;
             this.ButtonTag.Click += new System.EventHandler(this.ButtonTag_Click);
             // 
@@ -139,6 +148,7 @@ namespace VehicleRegoMgm
             this.ButtonOpen.Size = new System.Drawing.Size(113, 40);
             this.ButtonOpen.TabIndex = 9;
             this.ButtonOpen.Text = "Open";
+            this.toolTip1.SetToolTip(this.ButtonOpen, "Click to open file");
             this.ButtonOpen.UseVisualStyleBackColor = false;
             this.ButtonOpen.Click += new System.EventHandler(this.ButtonOpen_Click);
             // 
@@ -150,6 +160,7 @@ namespace VehicleRegoMgm
             this.ButtonSave.Size = new System.Drawing.Size(113, 40);
             this.ButtonSave.TabIndex = 10;
             this.ButtonSave.Text = "Save";
+            this.toolTip1.SetToolTip(this.ButtonSave, "Click to Save File");
             this.ButtonSave.UseVisualStyleBackColor = false;
             this.ButtonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
@@ -161,6 +172,7 @@ namespace VehicleRegoMgm
             this.ButtonReset.Size = new System.Drawing.Size(140, 40);
             this.ButtonReset.TabIndex = 11;
             this.ButtonReset.Text = "Reset";
+            this.toolTip1.SetToolTip(this.ButtonReset, "Click here to erase all the data");
             this.ButtonReset.UseVisualStyleBackColor = false;
             this.ButtonReset.Click += new System.EventHandler(this.ButtonReset_Click);
             // 
@@ -172,6 +184,7 @@ namespace VehicleRegoMgm
             this.ListBoxVehicle.Name = "ListBoxVehicle";
             this.ListBoxVehicle.Size = new System.Drawing.Size(120, 342);
             this.ListBoxVehicle.TabIndex = 12;
+            this.ListBoxVehicle.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListBoxVehicle_MouseDoubleClick);
             // 
             // statusStrip1
             // 
@@ -187,7 +200,7 @@ namespace VehicleRegoMgm
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(127, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
             // VehicleRegoMgm
@@ -236,6 +249,7 @@ namespace VehicleRegoMgm
         private System.Windows.Forms.ListBox ListBoxVehicle;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
