@@ -373,17 +373,33 @@ namespace VehicleRegoMgm
         //Method to generate new file name with number before extension. 
         public string newFileName(String fileName)
         {
-            //get the extension of file in this case .bin  is extracted
+           
             string extension = Path.GetExtension(fileName);
-            int i = 0;
             while (File.Exists(fileName))
             {
-                if (i == 0)
-                    fileName = fileName.Replace(extension, "(" + ++i + ")" + extension); //replace the current file with 1 so Rainbow.bin becomes Rainbow(1).bin
-                else
-                    fileName = fileName.Replace("(" + i + ")" + extension, "(" + ++i + ")" + extension); //Replace the filename with other number if the number exist already
+                string onlyName = Path.GetFileNameWithoutExtension(fileName);
+                int a = 0;
+                string temp = "";
+                for (int i = 0; i < onlyName.Length; i++)
+                {
+                    if (Char.IsDigit(onlyName[i]))
+                    {
+                        temp += onlyName[i];
+                        
+                    }
+                }
+                if (temp.Length > 0)
+                {
+                    a = int.Parse(temp);
+                }
+                
+                fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Rainbow" + (a+1) + extension);
             }
             return fileName;
+            
+
+
+
         }
         //Method to identify if the user has modifed the opened file or not
         public bool CompareList(List<string> a, List<string> b)
