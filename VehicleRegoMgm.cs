@@ -399,27 +399,25 @@ namespace VehicleRegoMgm
             return fileName;
             
 
-
-
         }
         //Method to identify if the user has modifed the opened file or not
         public bool CompareList(List<string> a, List<string> b)
         {
             a.Sort();
             b.Sort();
-            if (a.Count != b.Count)
+            if (a.Count != b.Count)  //when the length of both list is not equal return false
             {
                 return false;
             }
 
-            for (int i = 0; i < a.Count; i++)
+            for (int i = 0; i < a.Count; i++)  // when the index of list a not equal to index of b then return false
             {
                 if (!a[i].Equals(b[i]))
                 {
                     return false;
                 }
             }
-            return true;
+            return true;  // if both list equal in length and content then return true
         }
         #endregion
 
@@ -444,7 +442,6 @@ namespace VehicleRegoMgm
             }
         }
 
-     
         //To change the status bar notification
         private void VehicleRegoMgm_MouseDown(object sender, MouseEventArgs e)
         {
