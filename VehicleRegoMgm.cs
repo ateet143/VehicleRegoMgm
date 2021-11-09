@@ -440,6 +440,10 @@ namespace VehicleRegoMgm
                     TexttoBinary(newFileName(currentFile), vehicleRegos);
                 }
             }
+            else //saves filename with autoincrement 
+            {
+                TexttoBinary(newFileName(currentFile), vehicleRegos);
+            }
         }
 
         //To change the status bar notification
