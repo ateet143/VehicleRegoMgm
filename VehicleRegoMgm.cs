@@ -129,6 +129,7 @@ namespace VehicleRegoMgm
                 else
                 {
                     vehicleRegos.Add(TextBoxInput.Text.ToUpper());
+                    toolStripStatusLabel1.Text = "Vehicle Number Added";
                     vehicleRegos.Sort();
                     DisplayRegoList();
                     TextBoxInput.Clear();
@@ -317,7 +318,7 @@ namespace VehicleRegoMgm
             DialogResult sr = saveBinary.ShowDialog();
             if (sr == DialogResult.Cancel)
             {
-                fileName = newFileName(currentFile);
+                fileName = newFileName(currentFile); //auto increment the filename 
                 saveBinary.FileName = fileName;
                 currentFile = fileName;
             }
@@ -435,6 +436,10 @@ namespace VehicleRegoMgm
                 {
                     //Saves the file if clicked yes 
                     TexttoBinary(currentFile, vehicleRegos);
+                }
+                else  //saves auto increment file name
+                {
+                    TexttoBinary(newFileName(currentFile), vehicleRegos);
                 }
             }
         }
