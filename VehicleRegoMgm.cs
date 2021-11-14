@@ -53,7 +53,7 @@ namespace VehicleRegoMgm
         //Q2: The global data structure List<> of string type
         List<string> vehicleRegos = new List<string>();
         //Global variable for the file
-        string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Rainbow.bin");
+        string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Demo_00.bin");
         //Setting global variable as filename, can be used for saving or renaming file while saving
         string currentFile;
         #endregion
@@ -291,13 +291,17 @@ namespace VehicleRegoMgm
         //code will execute if open button is entered
         private void ButtonOpen_Click(object sender, EventArgs e)
         {
-            OpenFileDialog OpenBinary = new OpenFileDialog { FileName = "Rainbow.bin" }; //set the default filename as Rainbow.bin 
+            OpenFileDialog OpenBinary = new OpenFileDialog { FileName = "Demo_00.bin" }; //set the default filename as Rainbow.bin 
             OpenBinary.InitialDirectory = fileName;
             DialogResult sr = OpenBinary.ShowDialog();
             if (sr == DialogResult.OK)
             {
                 currentFile = fileName;
                 toolStripStatusLabel1.Text = fileName + " is opened.";
+            }
+            else
+            {
+                return;  //will exit without doing anything
             }
             vehicleRegos.Clear();
             vehicleRegos = BinaryToText(fileName, vehicleRegos);
@@ -313,12 +317,12 @@ namespace VehicleRegoMgm
                 InitialDirectory = fileName,
                 Filter = "binary files (*.bin)|*.bin|All files (*.*)|*.*",  //setting so that user can save as binary files
                 DefaultExt = "bin",  //save the file as bin extension if all files is choosed.
-                FileName = "Rainbow.bin"  //set default filename
+                FileName = "Demo_00.bin"  //set default filename
             };
             DialogResult sr = saveBinary.ShowDialog();
             if (sr == DialogResult.Cancel)
             {
-                fileName = newFileName(currentFile); //auto increment the filename 
+                fileName = NewFileName(currentFile); //auto increment the filename 
                 saveBinary.FileName = fileName;
                 currentFile = fileName;
             }
@@ -372,7 +376,7 @@ namespace VehicleRegoMgm
         }
 
         //Method to generate new file name with number before extension. 
-        public string newFileName(String fileName)
+        public string NewFileName(String fileName)
         {
            
             string extension = Path.GetExtension(fileName);
@@ -393,8 +397,16 @@ namespace VehicleRegoMgm
                 {
                     a = int.Parse(temp);
                 }
-                
-                fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Rainbow" + (a+1) + extension);
+                if(a < 9)
+                {
+                    fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Demo_" + "0"+ (a + 1) + extension);
+                }
+                else
+                {
+                    fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Demo_" + (a + 1) + extension);
+                }
+               
+               
             }
             return fileName;
             
@@ -437,12 +449,12 @@ namespace VehicleRegoMgm
                 }
                 else  //saves auto increment file name
                 {
-                    TexttoBinary(newFileName(currentFile), vehicleRegos);
+                    TexttoBinary(NewFileName(currentFile), vehicleRegos);
                 }
             }
             else //saves filename with autoincrement 
             {
-                TexttoBinary(newFileName(currentFile), vehicleRegos);
+                TexttoBinary(NewFileName(currentFile), vehicleRegos);
             }
         }
 
@@ -455,8 +467,30 @@ namespace VehicleRegoMgm
         //Q8: A list click method allows user to select the record display in textbox
         private void ListBoxVehicle_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            TextBoxInput.Text = vehicleRegos.ElementAt(ListBoxVehicle.SelectedIndex);
+            try
+            {
+                TextBoxInput.Text = vehicleRegos.ElementAt(ListBoxVehicle.SelectedIndex);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            
         }
         #endregion
+
+        private void TextBoxInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetterOrDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && (e.KeyChar != '-'))
+            {
+                e.Handled = true;
+            }
+
+            //only allow one -
+            if ((e.KeyChar == '-') && (TextBoxInput.Text.IndexOf('-') > -1))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

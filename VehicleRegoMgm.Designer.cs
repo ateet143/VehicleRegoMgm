@@ -61,11 +61,14 @@ namespace VehicleRegoMgm
             // TextBoxInput
             // 
             this.TextBoxInput.Location = new System.Drawing.Point(235, 45);
+            this.TextBoxInput.MaxLength = 8;
             this.TextBoxInput.Multiline = true;
             this.TextBoxInput.Name = "TextBoxInput";
+            this.TextBoxInput.ShortcutsEnabled = false;
             this.TextBoxInput.Size = new System.Drawing.Size(130, 34);
             this.TextBoxInput.TabIndex = 2;
             this.toolTip1.SetToolTip(this.TextBoxInput, "Type the vehicle plate number here");
+            this.TextBoxInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxInput_KeyPress);
             this.TextBoxInput.Validating += new System.ComponentModel.CancelEventHandler(this.TextBoxInput_Validating);
             // 
             // ButtonBinarySearch
