@@ -187,6 +187,7 @@ namespace VehicleRegoMgm
             this.ListBoxVehicle.Name = "ListBoxVehicle";
             this.ListBoxVehicle.Size = new System.Drawing.Size(120, 342);
             this.ListBoxVehicle.TabIndex = 12;
+            this.ListBoxVehicle.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListBoxVehicle_MouseClick);
             this.ListBoxVehicle.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListBoxVehicle_MouseDoubleClick);
             // 
             // statusStrip1

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Diagnostics;
 //Created by Atit
 //Date: 02/11/2021
 //Vehicle plate management system
@@ -36,12 +37,6 @@ namespace VehicleRegoMgm
             }
             else
             {
-                // if the file does not exist then, load the default data, only to test.
-                vehicleRegos.Add("1RTU-567");
-                vehicleRegos.Add("1CDH-979");
-                vehicleRegos.Add("1CDA-999");
-                vehicleRegos.Add("1GHT-047");
-                vehicleRegos.Add("1QWE-345");
                 TexttoBinary(fileName, vehicleRegos);
                 toolStripStatusLabel1.Text = fileName + " is Created";
             }
@@ -118,6 +113,7 @@ namespace VehicleRegoMgm
         //Q4: Enter new data with error trapping if null or whitespace
         private void ButtonEnter_Click(object sender, EventArgs e)
         {
+           
             if (!string.IsNullOrWhiteSpace(TextBoxInput.Text))
             {
                 if (vehicleRegos.Contains(TextBoxInput.Text.ToUpper()))
@@ -162,8 +158,8 @@ namespace VehicleRegoMgm
 
                 if (!string.IsNullOrWhiteSpace(TextBoxInput.Text))
                 {
-
                     int a = vehicleRegos.IndexOf(TextBoxInput.Text.ToUpper());
+                    Trace.WriteLine("Index of number:" + a);
                     if (a >= 0)
                     {
                         vehicleRegos.RemoveAt(a);
@@ -184,10 +180,29 @@ namespace VehicleRegoMgm
             }
             else
             {
+                Trace.WriteLine("No double click or textboox content detected");
                 toolStripStatusLabel1.Text = "SELECT or TYPE Plate Number";
                 TextBoxInput.Clear();
                 TextBoxInput.Focus();
             }
+        }
+
+        //Double click to remove the vehicle plate number from list
+        private void ListBoxVehicle_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                vehicleRegos.RemoveAt(ListBoxVehicle.SelectedIndex);
+                TextBoxInput.Clear();
+                toolStripStatusLabel1.Text = "Plate Removed";
+                vehicleRegos.Sort();
+                DisplayRegoList();
+            }
+            catch (Exception)
+            {
+                return;
+            }
+
         }
 
         //Q6: Edit Single data item in listbox and updated, duplicate record must not created.
@@ -195,21 +210,26 @@ namespace VehicleRegoMgm
         {
             if (ListBoxVehicle.SelectedIndex != -1 && !string.IsNullOrEmpty(TextBoxInput.Text))
             {
+                String temp = vehicleRegos[ListBoxVehicle.SelectedIndex];
                 if (!vehicleRegos.Contains(TextBoxInput.Text.ToUpper()))
                 {
                     vehicleRegos[ListBoxVehicle.SelectedIndex] = TextBoxInput.Text.ToUpper();
+                    toolStripStatusLabel1.Text = temp + " EDITED TO: " + TextBoxInput.Text.ToUpper();
                     TextBoxInput.Clear();
+                    TextBoxInput.Focus();
                     DisplayRegoList();
                 }
                 else
                 {
                     toolStripStatusLabel1.Text = "Vehicle already exist";
                     TextBoxInput.Clear();
+                    TextBoxInput.Focus();
                 }
             }
             else
             {
                 toolStripStatusLabel1.Text = "Select Plate Number from List and  Type to Edit";
+                TextBoxInput.Focus();
             }
         }
 
@@ -230,10 +250,10 @@ namespace VehicleRegoMgm
                 {
                     toolStripStatusLabel1.Text = "Already Tagged";
                 }
-
             }
             else
             {
+                Trace.WriteLine("Not selected anything from list");
                 toolStripStatusLabel1.Text = "Vehicle plate not selected";
             }
         }
@@ -248,42 +268,74 @@ namespace VehicleRegoMgm
             {
                 vehicleRegos.Sort();
                 if (vehicleRegos.BinarySearch(TextBoxInput.Text.ToUpper()) >= 0)
+                {
                     toolStripStatusLabel1.Text = "Vehicle is Parked";
+                    TextBoxInput.Clear();
+                    TextBoxInput.Focus();
+                }
+
                 else
+                {
                     toolStripStatusLabel1.Text = "Vehicle not Parked";
-                TextBoxInput.Clear();
+                    TextBoxInput.Clear();
+                    TextBoxInput.Focus();
+                }
+                    
             }
             else
+            {
                 toolStripStatusLabel1.Text = "Type the vehicle plate";
+                TextBoxInput.Focus();
+            }
+                
         }
 
         //Q11: Linear search method with error trapping
         private void ButtonLinearSearch_Click(object sender, EventArgs e)
         {
+            Trace.WriteLine("User Entered in Textbox:" + TextBoxInput.Text);
             if (!string.IsNullOrWhiteSpace(TextBoxInput.Text))
             {
+                
                 bool found = false;
+                Trace.WriteLine("Initial value of Found:" + found);
+                Trace.WriteLine("user typed number in textbox:" + TextBoxInput.Text);
                 for (int i = 0; i < vehicleRegos.Count; i++)
                 {
+                    Trace.WriteLine("Value of i:"+ i);
+                    Trace.WriteLine("Content of list:" + vehicleRegos[i] +" at Index i:" + i);
                     if (TextBoxInput.Text.ToUpper().Equals(vehicleRegos[i]))
                     {
+                        Trace.WriteLine(TextBoxInput.Text.ToUpper() + " equal to:" + vehicleRegos[i] + " in i:" + i);
                         found = true;
+                        Trace.WriteLine("Value of Found after found:" + found);
                         break;
                     }
+                    Trace.WriteLine("Value of Found after not found:" + found);
+                  
                 }
                 if (found)
+                {
                     toolStripStatusLabel1.Text = "Vehicle is Parked";
+                    Trace.WriteLine(toolStripStatusLabel1.Text);
+                    TextBoxInput.Clear();
+                    TextBoxInput.Focus();
+                }
                 else
+                {
                     toolStripStatusLabel1.Text = "Vehicle not Parked";
-                TextBoxInput.Focus();
+                    Trace.WriteLine(toolStripStatusLabel1.Text);
+                    TextBoxInput.Clear();
+                    TextBoxInput.Focus();
+                }
             }
             else
             {
+               
                 toolStripStatusLabel1.Text = "Type the vehicle plate";
+                Trace.WriteLine(toolStripStatusLabel1.Text);
                 TextBoxInput.Focus();
             }
-            TextBoxInput.Clear();
-            TextBoxInput.Focus();
         }
         #endregion
 
@@ -291,21 +343,24 @@ namespace VehicleRegoMgm
         //code will execute if open button is entered
         private void ButtonOpen_Click(object sender, EventArgs e)
         {
-            OpenFileDialog OpenBinary = new OpenFileDialog { FileName = "Demo_00.bin" }; //set the default filename as Rainbow.bin 
-            OpenBinary.InitialDirectory = fileName;
+            OpenFileDialog OpenBinary = new OpenFileDialog
+            {
+                InitialDirectory = fileName
+            }; //set the default filename as Rainbow.bin 
             DialogResult sr = OpenBinary.ShowDialog();
             if (sr == DialogResult.OK)
             {
+                fileName = OpenBinary.FileName;
                 currentFile = fileName;
                 toolStripStatusLabel1.Text = fileName + " is opened.";
+                vehicleRegos.Clear();
+                vehicleRegos = BinaryToText(fileName, vehicleRegos);
+                DisplayRegoList();
             }
             else
             {
                 return;  //will exit without doing anything
             }
-            vehicleRegos.Clear();
-            vehicleRegos = BinaryToText(fileName, vehicleRegos);
-            DisplayRegoList();
         }
 
         //execute the code when user clicks the save button, if pressed cancel button, Rainbow(int).bin will be created in user document folder
@@ -317,7 +372,7 @@ namespace VehicleRegoMgm
                 InitialDirectory = fileName,
                 Filter = "binary files (*.bin)|*.bin|All files (*.*)|*.*",  //setting so that user can save as binary files
                 DefaultExt = "bin",  //save the file as bin extension if all files is choosed.
-                FileName = "Demo_00.bin"  //set default filename
+                FileName = Path.GetFileName(currentFile) //set filename in the SaveFileDialog // getFileName extract the name only without path.
             };
             DialogResult sr = saveBinary.ShowDialog();
             if (sr == DialogResult.Cancel)
@@ -342,15 +397,23 @@ namespace VehicleRegoMgm
                 using (Stream stream = File.Open(fileName, FileMode.Open))
                 {
                     BinaryFormatter binaryFormatter = new BinaryFormatter();
-                    while (stream.Position < stream.Length)
+                    try  //Added error trap to tackle if the binary file is manually modified and added text contents
                     {
-                        tempList.Add((string)binaryFormatter.Deserialize(stream));
+                        while (stream.Position < stream.Length)
+                        {
+                            tempList.Add((string)binaryFormatter.Deserialize(stream));
+                        }
                     }
+                    catch (Exception)
+                    {
+                        toolStripStatusLabel1.Text = "File could not Deserialize, may contain non-binary Characters";
+                    }
+                   
                 }
             }
             catch (IOException)
             {
-                MessageBox.Show("cannot open file");
+                MessageBox.Show("Cannot OPEN file");
             }
             return tempList;
         }
@@ -464,21 +527,6 @@ namespace VehicleRegoMgm
             toolStripStatusLabel1.Text = "Application running";
         }
 
-        //Q8: A list click method allows user to select the record display in textbox
-        private void ListBoxVehicle_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            try
-            {
-                TextBoxInput.Text = vehicleRegos.ElementAt(ListBoxVehicle.SelectedIndex);
-            }
-            catch (Exception)
-            {
-                return;
-            }
-            
-        }
-        #endregion
-
         private void TextBoxInput_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsLetterOrDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && (e.KeyChar != '-'))
@@ -492,5 +540,20 @@ namespace VehicleRegoMgm
                 e.Handled = true;
             }
         }
+        //Q8: A list click method allows user to select the record display in textbox
+        private void ListBoxVehicle_MouseClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                TextBoxInput.Text = vehicleRegos.ElementAt(ListBoxVehicle.SelectedIndex);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
     }
 }
+
+
+#endregion
