@@ -33,7 +33,6 @@ namespace VehicleRegoMgm
                 vehicleRegos.Clear();
                 BinaryToText(fileName, vehicleRegos);
                 toolStripStatusLabel1.Text = fileName + " is opened";
-
             }
             else
             {
@@ -113,7 +112,6 @@ namespace VehicleRegoMgm
         //Q4: Enter new data with error trapping if null or whitespace
         private void ButtonEnter_Click(object sender, EventArgs e)
         {
-           
             if (!string.IsNullOrWhiteSpace(TextBoxInput.Text))
             {
                 if (vehicleRegos.Contains(TextBoxInput.Text.ToUpper()))
@@ -131,7 +129,6 @@ namespace VehicleRegoMgm
                     TextBoxInput.Clear();
                     TextBoxInput.Focus();
                 }
-
             }
             else
             {
@@ -139,7 +136,6 @@ namespace VehicleRegoMgm
                 TextBoxInput.Clear();
                 TextBoxInput.Focus();
             }
-
         }
 
         //Q5: Leave data,data is removed with error trapping notification
@@ -273,67 +269,50 @@ namespace VehicleRegoMgm
                     TextBoxInput.Clear();
                     TextBoxInput.Focus();
                 }
-
                 else
                 {
                     toolStripStatusLabel1.Text = "Vehicle not Parked";
                     TextBoxInput.Clear();
                     TextBoxInput.Focus();
                 }
-                    
             }
             else
             {
                 toolStripStatusLabel1.Text = "Type the vehicle plate";
                 TextBoxInput.Focus();
             }
-                
         }
 
         //Q11: Linear search method with error trapping
         private void ButtonLinearSearch_Click(object sender, EventArgs e)
         {
-            Trace.WriteLine("User Entered in Textbox:" + TextBoxInput.Text);
             if (!string.IsNullOrWhiteSpace(TextBoxInput.Text))
             {
-                
                 bool found = false;
-                Trace.WriteLine("Initial value of Found:" + found);
-                Trace.WriteLine("user typed number in textbox:" + TextBoxInput.Text);
                 for (int i = 0; i < vehicleRegos.Count; i++)
                 {
-                    Trace.WriteLine("Value of i:"+ i);
-                    Trace.WriteLine("Content of list:" + vehicleRegos[i] +" at Index i:" + i);
                     if (TextBoxInput.Text.ToUpper().Equals(vehicleRegos[i]))
                     {
-                        Trace.WriteLine(TextBoxInput.Text.ToUpper() + " equal to:" + vehicleRegos[i] + " in i:" + i);
                         found = true;
-                        Trace.WriteLine("Value of Found after found:" + found);
                         break;
                     }
-                    Trace.WriteLine("Value of Found after not found:" + found);
-                  
                 }
                 if (found)
                 {
                     toolStripStatusLabel1.Text = "Vehicle is Parked";
-                    Trace.WriteLine(toolStripStatusLabel1.Text);
                     TextBoxInput.Clear();
                     TextBoxInput.Focus();
                 }
                 else
                 {
                     toolStripStatusLabel1.Text = "Vehicle not Parked";
-                    Trace.WriteLine(toolStripStatusLabel1.Text);
                     TextBoxInput.Clear();
                     TextBoxInput.Focus();
                 }
             }
             else
             {
-               
                 toolStripStatusLabel1.Text = "Type the vehicle plate";
-                Trace.WriteLine(toolStripStatusLabel1.Text);
                 TextBoxInput.Focus();
             }
         }
@@ -441,7 +420,6 @@ namespace VehicleRegoMgm
         //Method to generate new file name with number before extension. 
         public string NewFileName(String fileName)
         {
-           
             string extension = Path.GetExtension(fileName);
             while (File.Exists(fileName))
             {
@@ -468,12 +446,8 @@ namespace VehicleRegoMgm
                 {
                     fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Demo_" + (a + 1) + extension);
                 }
-               
-               
             }
             return fileName;
-            
-
         }
         //Method to identify if the user has modifed the opened file or not
         public bool CompareList(List<string> a, List<string> b)
