@@ -14,6 +14,7 @@ using System.Diagnostics;
 //Created by Atit
 //Date: 02/11/2021
 //Vehicle plate management system
+//Version 1.4
 //This application will record the vehicle entered and leave the building, have different features such as load and write file, add, modify , remove and search data 
 
 namespace VehicleRegoMgm
