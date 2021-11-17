@@ -52,7 +52,7 @@ namespace VehicleRegoMgm
         //Setting global variable as filename, can be used for saving or renaming file while saving
         string currentFile;
         #endregion
-       
+
         #region Validating Rego Plate
         private void TextBoxInput_Validating(object sender, CancelEventArgs e)
         {
@@ -344,7 +344,7 @@ namespace VehicleRegoMgm
         }
 
         //execute the code when user clicks the save button, if pressed cancel button, Rainbow(int).bin will be created in user document folder
-       
+
         private void ButtonSave_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveBinary = new SaveFileDialog
@@ -388,7 +388,7 @@ namespace VehicleRegoMgm
                     {
                         toolStripStatusLabel1.Text = "File could not Deserialize, may contain non-binary Characters";
                     }
-                   
+
                 }
             }
             catch (IOException)
@@ -432,16 +432,16 @@ namespace VehicleRegoMgm
                     if (Char.IsDigit(onlyName[i]))
                     {
                         temp += onlyName[i];
-                        
+
                     }
                 }
                 if (temp.Length > 0)
                 {
                     a = int.Parse(temp);
                 }
-                if(a < 9)
+                if (a < 9)
                 {
-                    fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Demo_" + "0"+ (a + 1) + extension);
+                    fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Demo_" + "0" + (a + 1) + extension);
                 }
                 else
                 {
